@@ -1,0 +1,26 @@
+{% if item.title %}
+  <h{{depth}} class="haslink" id="{{item.title | replace: " ", "-" | downcase | strip_html | strip_newlines }}"><a href="#{{item.title | replace: " ", "-" | downcase | strip_html | strip_newlines }}" class="linkhere">#</a>
+    {{item.title}}
+    <a href="#top"></a>
+  </h{{depth}}>
+{% endif %}
+
+{% if item.text %}
+  {{ item.text | markdownify }}
+{% endif %}
+
+{% if item.snippet %}<code class="entry{% if item.deprecated %} deprecated{% endif %}">{{ item.snippet }}</code>{% endif %}
+{% if item.alias %}<code class="entry alias">{{ item.alias }}</code>{% endif %}
+
+{% if item.description %}
+  <blockquote>{{ item.description | markdownify }}</blockquote>
+{% endif %}
+
+{% if item.contents %}
+  {% for y in item.contents %}
+    {% assign item = y %}
+    {% assign depth = depth | plus: 1 %}
+    {% include docs.html %}
+    {% assign depth = depth | minus: 1 %}
+  {% endfor %}
+{% endif %}

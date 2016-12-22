@@ -1,0 +1,11 @@
+title: Neographics
+description: >
+  A graphics library for Pebble & embedded platforms.
+baseurl: ""
+url: "http://rebble.io/neographics"
+excerpt_separator: <!--more—->
+about: >
+  Neographics is a tiny graphics library for Pebble that's quicker and open-source.
+markdown: kramdown
+kramdown:
+  input: GFM

@@ -1,0 +1,20 @@
+<li>
+  <a href="#{{item.title | replace: " ", "-" | downcase | strip_html | strip_newlines }}">{{item.title}}</a>{% capture _ %}
+  {% endcapture %}{% assign renderul = false %}{% capture _ %}
+  {% endcapture %}{% for y in item.contents %}{% capture _ %}
+    {% endcapture %}{% if y.title %}{% capture _ %}
+      {% assign renderul = true %}
+      {% break %}
+    {% endcapture %}{% endif %}{% capture _ %}
+  {% endcapture %}{% endfor %}{% capture _ %}
+  {% endcapture %}{% if item.contents and renderul %}
+    <ul>{% capture _ %}
+      {% endcapture %}{% for y in item.contents %}{% capture _ %}
+        {% endcapture %}{% if y.title %}{% capture _ %}
+          {% assign item = y %}
+          {% endcapture %}{% include toc.html %}{% capture _ %}
+        {% endcapture %}{% endif %}{% capture _ %}
+      {% endcapture %}{% endfor %}{% capture _ %}
+    {% endcapture %}</ul>{% capture _ %}
+  {% endcapture %}{% endif %}{% capture _ %}
+{% endcapture %}</li>

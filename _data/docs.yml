@@ -1,0 +1,150 @@
+- title: Primitives
+  text:
+    Pebble's built-in graphics support a number of primitives.
+
+
+    However, since the naming of these functions has become incoherent over
+    time, Neographics has deprecated and thereby renamed some old functions.
+  contents:
+    - title: Pixel Manipulation
+      contents:
+        - snippet:
+            void <b>graphics_draw_pixel</b>(GContext * ctx, GPoint point)
+          description:
+            Sets the given pixel to the active stroke color.
+        - snippet:
+            void <b>graphics_fill_pixel</b>(GContext * ctx, GPoint point)
+          description:
+            Sets the given pixel to the active fill color.
+        - snippet:
+            void <b>graphics_set_pixel</b>(GContext * ctx, GPoint point, GColor color)
+          description:
+            Sets the given pixel to the given color.
+    - title: Rectangles
+      contents:
+        - snippet:
+            void <b>graphics_draw_rect</b>(GContext * ctx, GRect rect, uint16_t radius, GCornerMask mask)
+          alias:
+            void <b>graphics_draw_round_rect</b>(GContext * ctx, GRect rect, uint16_t radius, GCornerMask mask)
+          description:
+            Draws a rectangle with given corner mask and corner radius.<br/>
+            Uses the active stroke color and width.<br/>
+            Usage of **`graphics_draw_rect`** is preferred to its alias,
+                but not required.
+        - snippet:
+            void <b>graphics_fill_rect</b>(GContext * ctx, GRect rect, uint16_t radius, GCornerMask mask)
+          description:
+            Fills a rectangle with given corner mask and corner radius.<br/>
+            Uses the active fill color.
+        - snippet:
+            void <b>graphics_draw_thin_rect</b>(GContext * ctx, GRect rect)
+          description:
+            Draws a 1-pixel-thick rectangle with the active stroke color.<br/>
+            Use of this primitive is strongly discouraged as graphics_draw_rect
+            (see above) is more useful and just as fast.<br/>
+            Uses the active stroke color.
+          deprecated: true
+    - title: Circles & Radials
+      contents:
+        - snippet:
+            void <b>graphics_draw_circle</b>(GContext * ctx, GPoint center, uint16_t radius)
+          description:
+            Draws a circle with given origin and radius.<br/>
+            Uses the active stroke color and width.
+        - snippet:
+            void <b>graphics_fill_circle</b>(GContext * ctx, GPoint center, uint16_t radius)
+          description:
+            Fills a circle with given origin and radius.<br/>
+            Uses the active fill color.
+
+        - snippet:
+            void <b>graphics_draw_arc</b>(GContext * ctx, GRect rect, GOvalScaleMode mode, int32_t angle_start, int32_t angle_end)
+          description:
+            Draws an arc around a circle. Equivalent to filling a radial on an outset rect and giving it endcaps with more radials.<br/>
+            Uses the active stroke color and width.
+        - snippet:
+            void <b>graphics_fill_radial</b>(GContext * ctx, GRect rect, GOvalScaleMode mode, uint16_t inset_thickness, int32_t angle_start, int32_t angle_end)
+          description:
+            Fills a radial (pie / donut slice).<br/>
+            Uses the active fill color.
+
+    - title: Bitmaps
+      contents:
+        - snippet:
+            void <b>graphics_draw_bitmap_in_rect</b>(GContext * ctx, const GBitmap * bitmap, GRect rect)
+          description:
+            Draws a bitmap bounded within the given rectangle. If the bitmap is
+            too small to fill the rectangle, it is repeated in both x and y
+            directions. If it's too large, it's clipped from the
+            bottom and right.
+        - snippet:
+            void <b>graphics_draw_rotated_bitmap</b>(GContext * ctx, const GBitmap * bitmap, GPoint src, int32_t angle, GPoint dest)
+          description:
+            Draws a bitmap bounded within the given rectangle. If the bitmap is
+            too small to fill the rectangle, it is repeated in both x and y
+            directions. If it's too large, it's clipped from the
+            bottom and right.
+
+    - title: Framebuffer
+      contents:
+        - snippet:
+            GBitmap * <b>graphics_capture_frame_buffer</b>(GContext * ctx)
+          description:
+            Locks the framebuffer (i.e. any graphics calls will be ignored) and
+            returns a pointer to the GBitmap storing its information.
+        - snippet:
+            GBitmap * <b>graphics_capture_frame_buffer_format</b>(GContext * ctx, GBitmapFormat format)
+          description:
+            Captures the framebuffer with given format. On b/w watches, format
+            **must** be GBitmapFormat1Bit. On color watches, format **may**
+            be either GBitmapFormat1Bit or GBitmapFormat8Bit.
+        - snippet:
+            bool <b>graphics_frame_buffer_is_captured</b>(GContext * ctx)
+          description:
+            Returns `true` for yes, `false` for no.
+        - snippet:
+            bool <b>graphics_release_frame_buffer</b>(GContext * ctx, GBitmap * bitmap)
+          description:
+            Releases the framebuffer.
+- title: Paths
+  contents:
+    - snippet:
+        GPath * <b>gpath_create</b>(GPathInfo * info)
+      description:
+        Creates a GPath from given GPathInfo, using its point data. Rotation and offset are initialized to zero.
+    - snippet:
+        void <b>gpath_destroy</b>(GPath * path)
+      description:
+        Destroys a path.
+    - snippet:
+        void <b>gpath_draw_filled</b>(GContext * ctx, GPath * path)
+      description:
+        Fills a GPath with the currently active fill color
+    - snippet:
+        void <b>gpath_draw_outline</b>(GContext * ctx, GPath * path)
+      description:
+        Draws a GPath with the currently active stroke color and width.
+    - snippet:
+        void <b>gpath_draw_outline_open</b>(GContext * ctx, GPath * path)
+      description:
+        Like **`gpath_draw_outline`**, but doesn't connect the path's ends.
+    - snippet:
+        void <b>gpath_rotate_to</b>(GPath * path, int32_t angle)
+      description:
+        Sets the path's rotation to the angle. This doesn't change the path's
+        points' positions, but rather is applied when drawing the path.
+    - snippet:
+        void <b>gpath_move_to</b>(GPath * path, GPoint point)
+      description:
+        Sets the path's offset to the specified point. This doesn't change the
+        path's points' positions, but rather is applied when drawing the path.
+- title: Helpers
+  contents:
+    - snippet:
+        GPoint <b>gpoint_from_polar</b>(GRect rect, GOvalScaleMode scale_mode, int32_t angle)
+      description:
+        Returns a point at the given angle on the circle calculated by using the provided rect and scale mode.
+    - snippet:
+        GPoint <b>grect_centered_from_polar</b>(GRect rect, GOvalScaleMode scale_mode, int32_t angle, GSize size)
+      description:
+        Returns a rectangle of given size centered at the given angle on the circle calculated by using the provided rect   and scale mode.
