@@ -129,6 +129,13 @@ a.linkhere {
 
 /* --- */
 
+hr {
+    border: none;
+    border-bottom: 1px solid #888;
+}
+
+/* --- */
+
 code {
     padding: .2em .4em;
     font-size: 1em;
