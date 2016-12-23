@@ -1,6 +1,5 @@
 {% if item.title %}
-  <h{{depth}} class="haslink" id="{{item.title | replace: " ", "-" | downcase | strip_html | strip_newlines }}"><a href="#{{item.title | replace: " ", "-" | downcase | strip_html | strip_newlines }}" class="linkhere">#</a>
-    {{item.title}}
+  <h{{depth}} class="haslink" id="{{item.title | replace: " ", "-" | downcase | strip_html | strip_newlines }}"><a href="#{{item.title | replace: " ", "-" | downcase | strip_html | strip_newlines }}" class="linkhere">#</a>{{item.title}}
     <a href="#top"></a>
   </h{{depth}}>
 {% endif %}
